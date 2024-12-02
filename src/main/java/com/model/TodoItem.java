@@ -34,4 +34,12 @@ public class TodoItem {
     public boolean isDone() {
         return done;
     }
+
+    public void setDone(boolean done) {
+        this.done = done;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
 }

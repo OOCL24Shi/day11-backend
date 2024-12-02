@@ -24,4 +24,16 @@ public class TodoService {
     public TodoItem create(TodoItem todoItem) {
         return todoRepository.save(todoItem);
     }
+
+    public TodoItem update(Integer id, TodoItem todoItem) {
+        TodoItem todoItemToUpdate = todoRepository.findById(id).orElse(null);
+
+        if (todoItemToUpdate == null) {
+            return null;
+        }
+
+        todoItemToUpdate.setDone(todoItem.isDone());
+        todoItemToUpdate.setText(todoItem.getText());
+        return todoRepository.save(todoItemToUpdate);
+    }
 }

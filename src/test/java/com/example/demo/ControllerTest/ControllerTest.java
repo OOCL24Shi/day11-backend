@@ -34,9 +34,9 @@ public class ControllerTest {
     private JacksonTester<List<TodoItem>> todoItemJacksonTester;
 
     @Test
-    void should_return_all_todos_when_get_given_() throws Exception{
+    void should_return_all_todos_when_get_given_() throws Exception {
         //Given
-       final List<TodoItem> givenTodos= todoRepository.findAll();
+        final List<TodoItem> givenTodos = todoRepository.findAll();
 
         //When
         final MvcResult result = client.perform(MockMvcRequestBuilders.get("/todo")).andReturn();
@@ -52,7 +52,7 @@ public class ControllerTest {
     }
 
     @Test
-    void should_return_created_todo_when_post_given_a_new_todo() throws Exception{
+    void should_return_created_todo_when_post_given_a_new_todo() throws Exception {
 
         //Given
         String givenTodo = "{\n" +
@@ -68,6 +68,30 @@ public class ControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").isNotEmpty())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.text").value("text 4"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.done").value(false));
+        //Then
+    }
+
+    @Test
+    void should_update_todo_when_put_given_todo_id() throws Exception {
+        //Given
+        Integer givenID = todoRepository.findAll().get(0).getId();
+        String updatedText = "Updated Todo";
+        boolean updatedDone = false;
+
+        String updatedTodo = "{\n" +
+                "    \"text\": \"" + updatedText + "\",\n" +
+                "    \"done\": " + updatedDone + "\n" +
+                "}";
+
+        client.perform(MockMvcRequestBuilders.put("/todo/" + givenID)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(updatedTodo))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(givenID))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.text").value(updatedText))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.done").value(updatedDone));
+        //When
+
         //Then
     }
 
