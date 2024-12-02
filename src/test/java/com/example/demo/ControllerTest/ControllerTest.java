@@ -14,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.List;
 
@@ -48,6 +49,26 @@ public class ControllerTest {
         assertThat(fetchedTodos)
                 .usingRecursiveFieldByFieldElementComparator()
                 .isEqualTo(givenTodos);
+    }
+
+    @Test
+    void should_return_created_todo_when_post_given_a_new_todo() throws Exception{
+
+        //Given
+        String givenTodo = "{\n" +
+                "    \"text\": \"text 4\",\n" +
+                "    \"done\": false\n" +  // Removed trailing comma
+                "}";
+
+        //When
+        client.perform(MockMvcRequestBuilders.post("/todo")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(givenTodo))
+                .andExpect(MockMvcResultMatchers.status().isCreated())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").isNotEmpty())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.text").value("text 4"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.done").value(false));
+        //Then
     }
 
 }

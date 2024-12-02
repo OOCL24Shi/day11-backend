@@ -26,5 +26,11 @@ public class TodoController {
         return todoService.getAllTodo();
     }
 
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public TodoItem addCompany(@RequestBody TodoItem todoItem) {
+        return todoService.create(todoItem);
+    }
+
 
 }
