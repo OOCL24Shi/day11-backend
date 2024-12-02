@@ -106,6 +106,29 @@ public class ControllerTest {
         //Then
     }
 
+    @Test
+    void should_toggle_when_put_given_id_and_status() throws Exception {
+        //Given
+        Integer givenID = todoRepository.findAll().get(0).getId();
+        boolean newStatus = !(todoRepository.findAll().get(0).isDone());
+        String text = todoRepository.findAll().get(0).getText();
+        String updatedTodo = "{\n" +
+                "    \"text\": \"" + text + "\",\n" +
+                "    \"done\": " + newStatus + "\n" +
+                "}";
+        //When
+        client.perform(MockMvcRequestBuilders.put("/todo/" + givenID)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(updatedTodo))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(givenID))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.text").value(text))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.done").value(newStatus));
+
+        //Then
+
+    }
+
 }
 
 
