@@ -18,7 +18,7 @@ public class TodoController {
     @GetMapping
     public ResponseEntity <List<TodoItem>> getTodo () {
 
-        com.model.TodoItem todoItem = new com.model.TodoItem(99,"hello word",false);
+        TodoItem todoItem = new TodoItem(99,"hello word",false);
         return ResponseEntity.ok(List.of(todoItem));
     }
 
