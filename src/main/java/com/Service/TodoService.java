@@ -36,4 +36,8 @@ public class TodoService {
         todoItemToUpdate.setText(todoItem.getText());
         return todoRepository.save(todoItemToUpdate);
     }
+
+    public void delete(Integer id) {
+        todoRepository.deleteById(id);
+    }
 }

@@ -95,4 +95,18 @@ public class ControllerTest {
         //Then
     }
 
+    @Test
+    void should_delete_todo_when_delete_given_todo_id() throws Exception {
+        //Given
+        Integer givenID = todoRepository.findAll().get(0).getId();
+
+        //When
+        client.perform(MockMvcRequestBuilders.delete("/todo/" + givenID))
+                .andExpect(MockMvcResultMatchers.status().isNoContent());
+        //Then
+    }
+
 }
+
+
+
