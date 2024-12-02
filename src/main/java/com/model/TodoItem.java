@@ -1,7 +1,14 @@
 package com.model;
 
-public class TodoItem {
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
+@Entity
+public class TodoItem {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String text;
     private boolean done;
@@ -10,6 +17,10 @@ public class TodoItem {
         this.id = id;
         this.text = text;
         this.done = done;
+    }
+
+    public TodoItem() {
+
     }
 
     public Integer getId() {
